@@ -27,6 +27,7 @@ zfs create -o mountpoint=/root hactar/HOME/root
 #replace user with your username
 zfs create -o mountpoint=/home/macha hactar/HOME/macha
 
+mkdir -p /mnt/gentoo/boot
 mount /dev/sda1 /mnt/gentoo/boot
 cd /mnt/gentoo
 
