@@ -7,7 +7,7 @@ cryptsetup luksOpen /dev/sda3 cryptroot
 
 #setup ZFS
 zpool create -f -o ashift=12 -o cachefile=/tmp/zpool.cache -O normalization=formD -m none -R /mnt/gentoo hactar /dev/mapper/cryptroot
-zfs create -o mountpoint=none -o compression=lz4 hactar/ROOT
+zfs create -o mountpoint=none -o compression=lzjb hactar/ROOT
 #rootfs
 zfs create -o mountpoint=/ hactar/ROOT/rootfs
 #system mountpoints were seperated so that we can set nodev and nosuid as mount options
@@ -30,7 +30,7 @@ zfs create -o mountpoint=/home/macha hactar/HOME/macha
 cd /mnt/gentoo
 
 #Download the latest stage3 and extract it.
-wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-hardened/stage3-amd64-hardened-*.tar.bz2
+wget http://distfiles.gentoo.org/releases/amd64/autobuilds/current-stage3-amd64-hardened/stage3-amd64-hardened-20140508.tar.bz2
 tar -xf /mnt/gentoo/stage3-amd64-hardened-*.tar.bz2 -C /mnt/gentoo
 
 #get the latest portage tree
