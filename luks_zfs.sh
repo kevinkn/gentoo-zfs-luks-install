@@ -2,7 +2,8 @@
 
 #setup encrypted partition
 #aes-xts-plain64 was chosen due to speed, xts-essiv SHOULD be more secure, but about half as slow, on aes-ni I was getting about 200MBps
-cryptsetup luksFormat -l 512 -c aes-xts-plain64 -h sha512 /dev/sda3
+cryptsetup luksFormat -l 512 -c aes-cbc-essiv -h sha512 /dev/sda3 
+sleep 10
 cryptsetup luksOpen /dev/sda3 cryptroot
 
 #setup ZFS
