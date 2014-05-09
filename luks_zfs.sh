@@ -27,7 +27,7 @@ sleep 60
 
 #setup encrypted partition
 #aes-xts-plain64 was chosen due to speed, xts-essiv SHOULD be more secure, but about half as slow, on aes-ni I was getting about 200MBps
-cryptsetup luksFormat -l 512 -c aes-cbc-essiv -h sha512 /dev/sda3 
+cryptsetup luksFormat -l 512 -c blowfish -h sha512 /dev/sda3 
 sleep 10
 cryptsetup luksOpen /dev/sda3 cryptroot
 
@@ -67,3 +67,16 @@ emerge --sync
 #copy the zfs cache from the live system to the chroot
 mkdir -p /mnt/gentoo/etc/zfs
 cp /tmp/zpool.cache /mnt/gentoo/etc/zfs/zpool.cache
+
+
+vim /mnt/gentoo/etc/portage/make.conf
+
+mirrorselect -i -r -o >> /mnt/gentoo/portage/make.conf
+
+cp -L /etc/resolv.conf /mnt/gentoo/etc/
+
+mount -t proc proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+
+chroot /mnt/gentoo /bin/bash
