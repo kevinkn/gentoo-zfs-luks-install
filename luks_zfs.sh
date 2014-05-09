@@ -3,7 +3,7 @@
 #setup encrypted partition
 #aes-xts-plain64 was chosen due to speed, xts-essiv SHOULD be more secure, but about half as slow, on aes-ni I was getting about 200MBps
 cryptsetup luksFormat -l 512 -c aes-xts-plain64 -h sha512 /dev/sda2
-cryptsetup luksOpen /dev/sda2 cryptroot
+cryptsetup luksOpen /dev/sda3 cryptroot
 
 #setup ZFS
 zpool create -f -o ashift=12 -o cachefile=/tmp/zpool.cache -O normalization=formD -m none -R /mnt/gentoo mypool /dev/mapper/cryptroot
