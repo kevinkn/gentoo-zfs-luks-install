@@ -1,5 +1,30 @@
 #!/bin/bash
 
+fdisk /dev/sda <<EOF
+n
+p
+1
+
++100M
+n
+p
+2
++5G
+t
+2
+82
+n
+3
+
+
+a
+1
+p
+w
+EOF
+
+sleep 60
+
 #setup encrypted partition
 #aes-xts-plain64 was chosen due to speed, xts-essiv SHOULD be more secure, but about half as slow, on aes-ni I was getting about 200MBps
 cryptsetup luksFormat -l 512 -c aes-cbc-essiv -h sha512 /dev/sda3 
