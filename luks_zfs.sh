@@ -6,26 +6,26 @@ cryptsetup luksFormat -l 512 -c aes-xts-plain64 -h sha512 /dev/sda3
 cryptsetup luksOpen /dev/sda3 cryptroot
 
 #setup ZFS
-zpool create -f -o ashift=12 -o cachefile=/tmp/zpool.cache -O normalization=formD -m none -R /mnt/gentoo mypool /dev/mapper/cryptroot
-zfs create -o mountpoint=none -o compression=lz4 mypool/ROOT
+zpool create -f -o ashift=12 -o cachefile=/tmp/zpool.cache -O normalization=formD -m none -R /mnt/gentoo hactar /dev/mapper/cryptroot
+zfs create -o mountpoint=none -o compression=lz4 hactar/ROOT
 #rootfs
-zfs create -o mountpoint=/ mypool/ROOT/rootfs
+zfs create -o mountpoint=/ hactar/ROOT/rootfs
 #system mountpoints were seperated so that we can set nodev and nosuid as mount options
-zfs create -o mountpoint=/opt mypool/ROOT/rootfs/OPT
-zfs create -o mountpoint=/usr mypool/ROOT/rootfs/USR
-zfs create -o mountpoint=/usr/src -o sync=disabled mypool/ROOT/rootfs/USR/SRC
-zfs create -o mountpoint=/var mypool/ROOT/rootfs/VAR
+zfs create -o mountpoint=/opt hactar/ROOT/rootfs/OPT
+zfs create -o mountpoint=/usr hactar/ROOT/rootfs/USR
+zfs create -o mountpoint=/usr/src -o sync=disabled hactar/ROOT/rootfs/USR/SRC
+zfs create -o mountpoint=/var hactar/ROOT/rootfs/VAR
 #portage
-zfs create -o mountpoint=none mypool/GENTOO
-zfs create -o mountpoint=/usr/portage mypool/GENTOO/portage
-zfs create -o mountpoint=/usr/portage/distfiles -o compression=off mypool/GENTOO/distfiles
-zfs create -o mountpoint=/usr/portage/packages -o compression=off mypool/GENTOO/packages
-zfs create -o mountpoint=/var/tmp/portage -o sync=disabled mypool/GENTOO/build-dir
+zfs create -o mountpoint=none hactar/GENTOO
+zfs create -o mountpoint=/usr/portage hactar/GENTOO/portage
+zfs create -o mountpoint=/usr/portage/distfiles -o compression=off hactar/GENTOO/distfiles
+zfs create -o mountpoint=/usr/portage/packages -o compression=off hactar/GENTOO/packages
+zfs create -o mountpoint=/var/tmp/portage -o sync=disabled hactar/GENTOO/build-dir
 #homedirs
-zfs create -o mountpoint=/home mypool/HOME
-zfs create -o mountpoint=/root mypool/HOME/root
+zfs create -o mountpoint=/home hactar/HOME
+zfs create -o mountpoint=/root hactar/HOME/root
 #replace user with your username
-zfs create -o mountpoint=/home/USER mypool/HOME/USER
+zfs create -o mountpoint=/home/macha hactar/HOME/macha
 
 cd /mnt/gentoo
 
